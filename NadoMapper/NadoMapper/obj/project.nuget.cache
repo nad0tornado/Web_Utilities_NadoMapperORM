@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Fy9ZIGLlVNPH+zPlCS7kQqKdb5CHozbyIRSznvugY0fTHi56leI4Fx67WRnBtAV7UbnAalOMPDdxXYcD8vJXvQ==",
+  "success": true,
+  "projectFilePath": "D:\\Storage\\Projects\\Web\\Utilities\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Nathan\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Nathan\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
