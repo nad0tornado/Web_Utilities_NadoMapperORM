@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadoMapper", "NadoMapper\NadoMapper.csproj", "{72DAF59E-BC69-478A-A7D6-4CCB2D038CB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadoMapper", "NadoMapper\NadoMapper.csproj", "{72DAF59E-BC69-478A-A7D6-4CCB2D038CB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadoMapper_Tests", "NadoMapper_Tests\NadoMapper_Tests.csproj", "{F4BB8DCB-7811-46E3-B934-D74193A2020B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{72DAF59E-BC69-478A-A7D6-4CCB2D038CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72DAF59E-BC69-478A-A7D6-4CCB2D038CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72DAF59E-BC69-478A-A7D6-4CCB2D038CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4BB8DCB-7811-46E3-B934-D74193A2020B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4BB8DCB-7811-46E3-B934-D74193A2020B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4BB8DCB-7811-46E3-B934-D74193A2020B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4BB8DCB-7811-46E3-B934-D74193A2020B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
