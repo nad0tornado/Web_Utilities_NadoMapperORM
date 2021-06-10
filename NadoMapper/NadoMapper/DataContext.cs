@@ -15,7 +15,7 @@ namespace NadoMapper
 {
     public class DataContext<TEntity> where TEntity: ModelBase, new()
     {
-        /* private SqlConnection _connection;
+        /*private SqlConnection _connection;
         private string _connectionString;
         public List<PropertyConventionBase> PropertyConventions;
 

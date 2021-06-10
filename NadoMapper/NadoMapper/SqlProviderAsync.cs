@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-// using System.Data;
-// using System.Data.SqlClient;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -29,7 +29,7 @@ namespace NadoMapper
 
     public class SqlProviderAsync<TEntity> where TEntity : ModelBase, new()
     {
-        /* private SqlConnection _connection;
+        private SqlConnection _connection;
         private string _connectionString;
         public List<PropertyConventionBase> PropertyConventions;
 
@@ -48,38 +48,8 @@ namespace NadoMapper
             return true;
         }
 
-        protected IEnumerable<NadoMapperParameter> GetParamsFromModel(TEntity entity)
-        {
-            var parameters = new List<NadoMapperParameter>();
-            foreach (PropertyInfo prop in entity.GetType().GetProperties())
-                parameters.Add(new NadoMapperParameter() { Name = prop.Name, Value = prop.GetValue(entity) });
-
-            return parameters;
-        }
-
-        private SqlCommand OpenConnection(string command, CRUDType crudType, NadoMapperParameter parameter)
-            => OpenConnection(command, crudType, CommandType.StoredProcedure, new List<NadoMapperParameter>() { parameter });
-
-        private SqlCommand OpenConnection(string command, CRUDType crudType, CommandType commandType, IEnumerable<NadoMapperParameter> parameters = null)
-        {
-            SqlCommand cmd = new SqlCommand(command, _connection) { CommandType = commandType };
-
-            if (parameters != null)
-            {
-                foreach (NadoMapperParameter parameter in parameters)
-                {
-                    if (!PropertyConventions.Any(x => x.PropertyName == parameter.Name && x.CRUDType == crudType))
-                        cmd.Parameters.AddWithValue(parameter.Name, parameter.Value);
-                }
-            }
-
-            cmd.Connection.Open();
-
-            return cmd;
-        }
-
-        public async Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, NadoMapperParameter parameter)
-            => await ExecuteReaderAsync(command, new List<NadoMapperParameter>() { parameter });
+        /*public async Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, NadoMapperParameter parameter)
+            => await ExecuteReaderAsync(command, new List<NadoMapperParameter>() { parameter });*/
 
         public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, IEnumerable<NadoMapperParameter> parameters = null)
         {
@@ -102,6 +72,29 @@ namespace NadoMapper
 
             cmd.Connection.Close();
             return rowsUpdated;
-        } */
+        }
+
+        private SqlCommand OpenConnection(string command, CRUDType crudType, NadoMapperParameter parameter)
+            => OpenConnection(command, crudType, CommandType.StoredProcedure, new List<NadoMapperParameter>() { parameter });
+
+        private SqlCommand OpenConnection(string command, CRUDType crudType, CommandType commandType, IEnumerable<NadoMapperParameter> parameters = null)
+        {
+            SqlCommand cmd = new SqlCommand(command, _connection) { CommandType = commandType };
+            // .. how do we initialise the SqlCommand object with a connection string?
+            // .. can we just pass a string or do we need to pass a new connection every time?
+
+            if (parameters != null)
+            {
+                foreach (NadoMapperParameter parameter in parameters)
+                {
+                    if (!PropertyConventions.Any(x => x.PropertyName == parameter.Name && x.CRUDType == crudType))
+                        cmd.Parameters.AddWithValue(parameter.Name, parameter.Value);
+                }
+            }
+
+            cmd.Connection.Open();
+
+            return cmd;
+        }
     }
 }

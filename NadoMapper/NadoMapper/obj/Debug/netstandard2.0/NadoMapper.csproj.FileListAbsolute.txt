@@ -6,4 +6,3 @@ D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper
 D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.csproj.CoreCompileInputs.cache
 D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.dll
 D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.pdb
-D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.csprojAssemblyReference.cache
