@@ -33,63 +33,90 @@ namespace NadoMapper
         private string _connectionString;
         public List<PropertyConventionBase> PropertyConventions;
 
-        private Pluralizer _pluralizer;
-        private string _modelName => typeof(TEntity).Name;
-        private string _modelNamePlural => _pluralizer.Pluralize(_modelName);
-
         public void LoadConnectionString(string connectionString) => _connectionString = connectionString;
 
         public bool VerifyInitialize()
         {
             _connection = new SqlConnection(_connectionString);
-            _pluralizer = new Pluralizer();
             PropertyConventions = new List<PropertyConventionBase>();
 
             return true;
         }
 
-        /*public async Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, NadoMapperParameter parameter)
-            => await ExecuteReaderAsync(command, new List<NadoMapperParameter>() { parameter });*/
+        // QUERIES
 
-        public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, IEnumerable<NadoMapperParameter> parameters = null)
+        #region ExecuteScalar
+        public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, KeyValuePair<string,object> parameter)
+            => await ExecuteScalarAsync(command, crudType, new Dictionary<string, object>() { {parameter.Key,parameter.Value} });
+
+        public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, Dictionary<string, object> parameters = null)
         {
-            var cmd = OpenConnection(command, crudType, CommandType.StoredProcedure, parameters);
-
-            var data = await cmd.ExecuteScalarAsync();
-
-            cmd.Connection.Close();
-            return data;
-        }
-
-        public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, NadoMapperParameter parameter)
-            => await ExecuteScalarAsync(command, crudType, new List<NadoMapperParameter>() { parameter });
-
-        public async Task<long> ExecuteNonQueryAsync(string command, CRUDType crudType, IEnumerable<NadoMapperParameter> parameters = null)
-        {
-            var cmd = OpenConnection(command, crudType, CommandType.StoredProcedure, parameters);
-
-            var rowsUpdated = await cmd.ExecuteNonQueryAsync();
-
-            cmd.Connection.Close();
-            return rowsUpdated;
-        }
-
-        private SqlCommand OpenConnection(string command, CRUDType crudType, NadoMapperParameter parameter)
-            => OpenConnection(command, crudType, CommandType.StoredProcedure, new List<NadoMapperParameter>() { parameter });
-
-        private SqlCommand OpenConnection(string command, CRUDType crudType, CommandType commandType, IEnumerable<NadoMapperParameter> parameters = null)
-        {
-            SqlCommand cmd = new SqlCommand(command, _connection) { CommandType = commandType };
-            // .. how do we initialise the SqlCommand object with a connection string?
-            // .. can we just pass a string or do we need to pass a new connection every time?
-
-            if (parameters != null)
+            using (var cmd = OpenConnection(command, crudType, parameters))
             {
-                foreach (NadoMapperParameter parameter in parameters)
+                var data = await cmd.ExecuteScalarAsync();
+                return data;
+            }
+        }
+        #endregion
+
+        #region ExecuteNonQuery
+        public async Task<long> ExecuteNonQueryAsync(string command, CRUDType crudType, Dictionary<string, object> parameters = null)
+        {
+            using (var cmd = OpenConnection(command, crudType, parameters))
+            {
+                var rowsUpdated = await cmd.ExecuteNonQueryAsync();
+
+                return rowsUpdated;
+            }
+        }
+        #endregion
+
+        #region ExecuteReader
+        public async Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, KeyValuePair<string,object> parameter)
+            => await ExecuteReaderAsync(command, new Dictionary<string,object>() { {parameter.Key,parameter.Value} });
+
+        public async Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
+        {
+            using (var cmd = OpenConnection(command, CRUDType.Read, parameters))
+            {
+                var data = await cmd.ExecuteReaderAsync();
+
+                var models = new List<TEntity>();
+
+                while (data.Read())
                 {
-                    if (!PropertyConventions.Any(x => x.PropertyName == parameter.Name && x.CRUDType == crudType))
-                        cmd.Parameters.AddWithValue(parameter.Name, parameter.Value);
+                    var objectProps = new Dictionary<string, object>();
+
+                    for (int i = 0; i < data.VisibleFieldCount; ++i)
+                        objectProps.Add(data.GetName(i), data.GetValue(i));
+
+                    //TODO: Move this to "DataContext" ... all methods should return objects here ... No generic types in SqlProvider!
+                    models.Add(NadoMapper.MapPropsToSingle<TEntity>(objectProps));
                 }
+
+                cmd.Connection.Close();
+                return models;
+            }
+        }
+        #endregion
+
+        // SQL CONNECTION
+
+        /// <summary>
+        /// Open an SQL connection to call a stored procedure. Passed parameters will be filtered depending on 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="crudType"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private SqlCommand OpenConnection(string command, CRUDType crudType, Dictionary<string,object> parameters = null)
+        {
+            SqlCommand cmd = new SqlCommand(command, _connection) { CommandType = CommandType.StoredProcedure };
+
+            foreach (KeyValuePair<string,object> parameter in parameters)
+            {
+                if (!PropertyConventions.Any(x => x.PropertyName == parameter.Key && x.CRUDType == crudType))
+                    cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
             }
 
             cmd.Connection.Open();

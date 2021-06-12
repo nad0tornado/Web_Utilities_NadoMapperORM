@@ -13,7 +13,7 @@ using Pluralize.NET;
 
 namespace NadoMapper
 {
-    public class DataContext<TEntity> where TEntity: ModelBase, new()
+    public class DataContext<TEntity> : IDisposable where TEntity: ModelBase, new()
     {
         /*private SqlConnection _connection;
         private string _connectionString;
@@ -32,9 +32,13 @@ namespace NadoMapper
             PropertyConventions = new List<PropertyConventionBase>();
 
             return true;
+        }*/
+        public void Dispose()
+        {
+
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync() => await ExecuteReaderAsync($"Get{_modelNamePlural}");
+        /*public async Task<IEnumerable<TEntity>> GetAllAsync() => await ExecuteReaderAsync($"Get{_modelNamePlural}");
 
         public async Task<TEntity> GetSingleAsync(NadoMapperParameter parameter)
         {
