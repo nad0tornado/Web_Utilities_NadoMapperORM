@@ -27,7 +27,7 @@ namespace NadoMapper
         public object Value { get; set; }
     }
 
-    public class SqlProviderAsync<TEntity> where TEntity : ModelBase, new()
+    public sealed class SqlProviderAsync : IDisposable
     {
         private SqlConnection _connection;
         private string _connectionString;
@@ -41,6 +41,11 @@ namespace NadoMapper
             PropertyConventions = new List<PropertyConventionBase>();
 
             return true;
+        }
+
+        public void Dispose()
+        {
+            _connection.Dispose();
         }
 
         // QUERIES
@@ -72,16 +77,16 @@ namespace NadoMapper
         #endregion
 
         #region ExecuteReader
-        public async Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, KeyValuePair<string,object> parameter)
+        public async Task<IEnumerable<Dictionary<string, object>>> ExecuteReaderAsync(string command, KeyValuePair<string,object> parameter)
             => await ExecuteReaderAsync(command, new Dictionary<string,object>() { {parameter.Key,parameter.Value} });
 
-        public async Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
+        public async Task<IEnumerable<Dictionary<string,object>>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
         {
             using (var cmd = OpenConnection(command, CRUDType.Read, parameters))
             {
                 var data = await cmd.ExecuteReaderAsync();
 
-                var models = new List<TEntity>();
+                var entities = new List<Dictionary<string, object>>();
 
                 while (data.Read())
                 {
@@ -90,12 +95,11 @@ namespace NadoMapper
                     for (int i = 0; i < data.VisibleFieldCount; ++i)
                         objectProps.Add(data.GetName(i), data.GetValue(i));
 
-                    //TODO: Move this to "DataContext" ... all methods should return objects here ... No generic types in SqlProvider!
-                    models.Add(NadoMapper.MapPropsToSingle<TEntity>(objectProps));
+                    entities.Add(objectProps);
                 }
 
                 cmd.Connection.Close();
-                return models;
+                return entities;
             }
         }
         #endregion

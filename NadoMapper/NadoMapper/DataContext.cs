@@ -15,32 +15,37 @@ namespace NadoMapper
 {
     public class DataContext<TEntity> : IDisposable where TEntity: ModelBase, new()
     {
-        /*private SqlConnection _connection;
-        private string _connectionString;
-        public List<PropertyConventionBase> PropertyConventions;
+        private SqlProviderAsync _sqlProviderAsync;
+        public SqlProviderAsync SqlProvider => _sqlProviderAsync;
 
         private Pluralizer _pluralizer;
         private string _modelName => typeof(TEntity).Name;
         private string _modelNamePlural => _pluralizer.Pluralize(_modelName);
 
-        public void LoadConnectionString(string connectionString) => _connectionString = connectionString;
+        public void LoadConnectionString(string connectionString) => _sqlProviderAsync.LoadConnectionString(connectionString);
 
         public bool VerifyInitialize()
         {
-            _connection = new SqlConnection(_connectionString);
             _pluralizer = new Pluralizer();
-            PropertyConventions = new List<PropertyConventionBase>();
+            _sqlProviderAsync = new SqlProviderAsync();
+
+            _sqlProviderAsync.VerifyInitialize();
 
             return true;
-        }*/
+        }
         public void Dispose()
         {
-
+            _sqlProviderAsync.Dispose();
         }
 
-        /*public async Task<IEnumerable<TEntity>> GetAllAsync() => await ExecuteReaderAsync($"Get{_modelNamePlural}");
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            var data = await _sqlProviderAsync.ExecuteReaderAsync($"Get{_modelNamePlural}");
 
-        public async Task<TEntity> GetSingleAsync(NadoMapperParameter parameter)
+            return data.Select(d => NadoMapper.MapPropsToSingle<TEntity>(d));
+        }
+
+        /*public async Task<TEntity> GetSingleAsync(NadoMapperParameter parameter)
         {
             var parameterName = parameter.Name[0] + parameter.Name.Substring(1);
 
