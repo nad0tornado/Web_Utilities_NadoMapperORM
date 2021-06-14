@@ -11,20 +11,17 @@ using NadoMapper.Conventions;
 using Newtonsoft.Json;
 using Pluralize.NET;
 
-namespace NadoMapper
+namespace NadoMapper.SqlProvider
 {
+    /// <summary>
+    /// Dictates the type of CRUD operation being performed, and therefore which parameters to keep or omit depending on selected property conventions
+    /// </summary>
     public enum CRUDType
     {
         Create,
         Read,
         Update,
         Delete
-    }
-
-    public struct NadoMapperParameter
-    {
-        public string Name { get; set; }
-        public object Value { get; set; }
     }
 
     public sealed class SqlProviderAsync : IDisposable
@@ -77,8 +74,8 @@ namespace NadoMapper
         #endregion
 
         #region ExecuteReader
-        public async Task<IEnumerable<Dictionary<string, object>>> ExecuteReaderAsync(string command, KeyValuePair<string,object> parameter)
-            => await ExecuteReaderAsync(command, new Dictionary<string,object>() { {parameter.Key,parameter.Value} });
+        public async Task<IEnumerable<Dictionary<string, object>>> ExecuteReaderAsync(string command, string parameterName, object parameterValue)
+            => await ExecuteReaderAsync(command, new Dictionary<string,object>() { { parameterName, parameterValue } });
 
         public async Task<IEnumerable<Dictionary<string,object>>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
         {
@@ -107,7 +104,7 @@ namespace NadoMapper
         // SQL CONNECTION
 
         /// <summary>
-        /// Open an SQL connection to call a stored procedure. Passed parameters will be filtered depending on 
+        /// Open an SQL connection to call a stored procedure. Passed parameters will be filtered depending on the specified CRUDType
         /// </summary>
         /// <param name="command"></param>
         /// <param name="crudType"></param>
@@ -117,10 +114,13 @@ namespace NadoMapper
         {
             SqlCommand cmd = new SqlCommand(command, _connection) { CommandType = CommandType.StoredProcedure };
 
-            foreach (KeyValuePair<string,object> parameter in parameters)
+            if (parameters != null)
             {
-                if (!PropertyConventions.Any(x => x.PropertyName == parameter.Key && x.CRUDType == crudType))
-                    cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                foreach (KeyValuePair<string, object> parameter in parameters)
+                {
+                    if (!PropertyConventions.Any(x => x.PropertyName == parameter.Key && x.CRUDType == crudType))
+                        cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
             }
 
             cmd.Connection.Open();

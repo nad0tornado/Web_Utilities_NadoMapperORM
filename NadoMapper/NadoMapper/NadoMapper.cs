@@ -7,6 +7,12 @@ using Newtonsoft.Json;
 
 namespace NadoMapper
 {
+    public struct NadoMapperParameter
+    {
+        public string Name { get; set; }
+        public object Value { get; set; }
+    }
+
     public class NadoMapper
     {
         public static TEntity MapPropsToSingle<TEntity>(Dictionary<string, object> props) =>
@@ -15,7 +21,7 @@ namespace NadoMapper
         public static TEntity MapSingle<TEntity>(object model) =>
             JsonConvert.DeserializeObject<TEntity>(JsonConvert.SerializeObject(model));
 
-        protected Dictionary<string,object> ReflectPropsFromSingle<TEntity>(TEntity entity)
+        public static Dictionary<string,object> ReflectPropsFromSingle<TEntity>(TEntity entity)
         {
             var parameters = new Dictionary<string, object>();
 
