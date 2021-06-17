@@ -15,33 +15,23 @@ using Pluralize.NET;
 
 namespace NadoMapper
 {
-    public class DataContext<TEntity> : IDisposable where TEntity: ModelBase, new()
+    public class DataContext<TEntity> where TEntity: ModelBase, new()
     {
-        private SqlProviderAsync _sqlProviderAsync;
+        private SqlProviderAsync sqlProviderAsync;
 
-        private Pluralizer _pluralizer;
-        private string _modelName => typeof(TEntity).Name;
-        private string _modelNamePlural => _pluralizer.Pluralize(_modelName);
+        private Pluralizer pluralizer;
+        private string modelName => typeof(TEntity).Name;
+        private string modelNamePlural => pluralizer.Pluralize(modelName);
 
-        public void LoadConnectionString(string connectionString) => _sqlProviderAsync.LoadConnectionString(connectionString);
-
-        public bool VerifyInitialize()
+        public DataContext(string connectionString)
         {
-            _pluralizer = new Pluralizer();
-            _sqlProviderAsync = new SqlProviderAsync();
-
-            _sqlProviderAsync.VerifyInitialize();
-
-            return true;
-        }
-        public void Dispose()
-        {
-            _sqlProviderAsync.Dispose();
+            pluralizer = new Pluralizer();
+            sqlProviderAsync = new SqlProviderAsync(connectionString);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var data = await _sqlProviderAsync.ExecuteReaderAsync($"Get{_modelNamePlural}");
+            var data = await sqlProviderAsync.ExecuteReaderAsync($"Get{modelNamePlural}");
 
             return data.Select(d => NadoMapper.MapPropsToSingle<TEntity>(d));
         }
@@ -55,9 +45,9 @@ namespace NadoMapper
         public async Task<TEntity> GetSingleAsync(NadoMapperParameter parameter)
         {
             var parameterName = parameter.Name.ToUpper()[0] + parameter.Name.Substring(1);
-            var procName = $"Get{_modelName}By{parameterName}";
+            var procName = $"Get{modelName}By{parameterName}";
 
-            var data = await _sqlProviderAsync.ExecuteReaderAsync(procName, parameter.Name, parameter.Value);
+            var data = await sqlProviderAsync.ExecuteReaderAsync(procName, parameter.Name, parameter.Value);
             var single = data.FirstOrDefault();
 
             return NadoMapper.MapSingle<TEntity>(single);
@@ -66,13 +56,16 @@ namespace NadoMapper
         public async Task<long> AddAsync(TEntity model)
         {
             var parameters = NadoMapper.ReflectPropsFromSingle(model);
-            var id = await _sqlProviderAsync.ExecuteScalarAsync($"Add{_modelName}", CRUDType.Create, parameters);
+            var id = await sqlProviderAsync.ExecuteScalarAsync($"Add{modelName}", CRUDType.Create, parameters);
 
             if(id.GetType() != typeof(long))
                 throw new ApplicationException($"Expected a long to be returned, got {id}");
 
             return (long)id;
         }
+
+        // TODO: Implement Remaining CRUD
+        // NOTE: To do AddAsync and return an object, create an override in the Repository base called "AddAsync" that calls "GetById"
 
         /*public async Task<long> UpdateAsync(TEntity model) => await ExecuteNonQueryAsync($"Update{_modelName}", CRUDType.Update, GetParamsFromModel(model));
 

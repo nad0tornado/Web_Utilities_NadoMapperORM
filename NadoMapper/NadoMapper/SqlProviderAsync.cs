@@ -24,32 +24,24 @@ namespace NadoMapper.SqlProvider
         Delete
     }
 
-    public sealed class SqlProviderAsync : IDisposable
+    public sealed class SqlProviderAsync
     {
-        private SqlConnection _connection;
         private string _connectionString;
-        public List<PropertyConventionBase> PropertyConventions;
+        private readonly List<PropertyConventionBase> propertyConventions;
 
-        public void LoadConnectionString(string connectionString) => _connectionString = connectionString;
-
-        public bool VerifyInitialize()
+        public SqlProviderAsync(string connectionString)
         {
-            _connection = new SqlConnection(_connectionString);
-            PropertyConventions = new List<PropertyConventionBase>();
-
-            return true;
+            _connectionString = connectionString;
+            propertyConventions = new List<PropertyConventionBase>();
         }
 
-        public void Dispose()
-        {
-            _connection.Dispose();
-        }
+        public void AddPropertyConvention(PropertyConventionBase convention) => propertyConventions.Add(convention);
 
         // QUERIES
 
         #region ExecuteScalar
-        public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, KeyValuePair<string,object> parameter)
-            => await ExecuteScalarAsync(command, crudType, new Dictionary<string, object>() { {parameter.Key,parameter.Value} });
+        public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, string parameterName, object parameterValue)
+            => await ExecuteScalarAsync(command, crudType, new Dictionary<string, object>() { {parameterName,  parameterValue} });
 
         public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, Dictionary<string, object> parameters = null)
         {
@@ -112,13 +104,13 @@ namespace NadoMapper.SqlProvider
         /// <returns></returns>
         private SqlCommand OpenConnection(string command, CRUDType crudType, Dictionary<string,object> parameters = null)
         {
-            SqlCommand cmd = new SqlCommand(command, _connection) { CommandType = CommandType.StoredProcedure };
+            SqlCommand cmd = new SqlCommand(command) { CommandType = CommandType.StoredProcedure };
 
             if (parameters != null)
             {
-                foreach (KeyValuePair<string, object> parameter in parameters)
+                foreach (var parameter in parameters)
                 {
-                    if (!PropertyConventions.Any(x => x.PropertyName == parameter.Key && x.CRUDType == crudType))
+                    if (!propertyConventions.Any(x => x.PropertyName == parameter.Key && x.CRUDType == crudType))
                         cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
                 }
             }
