@@ -27,15 +27,13 @@ namespace NadoMapper.SqlProvider
     public sealed class SqlProviderAsync
     {
         private string _connectionString;
-        private readonly List<PropertyConventionBase> propertyConventions;
+        public List<PropertyConventionBase> PropertyConventions;
 
         public SqlProviderAsync(string connectionString)
         {
             _connectionString = connectionString;
-            propertyConventions = new List<PropertyConventionBase>();
+            PropertyConventions = new List<PropertyConventionBase>();
         }
-
-        public void AddPropertyConvention(PropertyConventionBase convention) => propertyConventions.Add(convention);
 
         // QUERIES
 
@@ -96,7 +94,7 @@ namespace NadoMapper.SqlProvider
         // SQL CONNECTION
 
         /// <summary>
-        /// Open an SQL connection to call a stored procedure. Passed parameters will be filtered depending on the specified CRUDType
+        /// Open a SQL connection to call a stored procedure. Passed parameters will be filtered depending on the specified CRUDType
         /// </summary>
         /// <param name="command"></param>
         /// <param name="crudType"></param>
@@ -110,7 +108,7 @@ namespace NadoMapper.SqlProvider
             {
                 foreach (var parameter in parameters)
                 {
-                    if (!propertyConventions.Any(x => x.PropertyName == parameter.Key && x.CRUDType == crudType))
+                    if (!PropertyConventions.Any(x => x.PropertyName == parameter.Key && x.CRUDType == crudType))
                         cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
                 }
             }

@@ -1,34 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-// using System.Data;
-// using System.Data.SqlClient;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-// using System.Web;
 using NadoMapper.Models;
-using NadoMapper.Conventions;
 using NadoMapper.SqlProvider;
-using Newtonsoft.Json;
 using Pluralize.NET;
 
 namespace NadoMapper
 {
+    /// <summary>
+    /// A generalised, standalone wrapper which gives the ability to perform basic CRUD operations on a database.
+    /// The DataContext may be included as a member of a parent "Repository" class to provide specific functionality.
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public class DataContext<TEntity> where TEntity: ModelBase, new()
     {
         private SqlProviderAsync sqlProviderAsync;
 
-        private Pluralizer pluralizer;
         private string modelName => typeof(TEntity).Name;
-        private string modelNamePlural => pluralizer.Pluralize(modelName);
+        private string modelNamePlural { get; }
 
+        /// <summary>
+        /// Create a new DataContext accepting a <paramref name="connectionString"/> for use with models of type <paramref name="TEntity"/>
+        /// </summary>
+        /// <param name="connectionString"></param>
         public DataContext(string connectionString)
         {
-            pluralizer = new Pluralizer();
+            var pluralizer = new Pluralizer();
+            modelNamePlural = pluralizer.Pluralize(modelName);
+
             sqlProviderAsync = new SqlProviderAsync(connectionString);
         }
 
+        /// <summary>
+        /// Retrieve all of the rows in the database for a given model.
+        /// Note: Requires stored procedure "Get[modelName](s/es)" e.g. "GetTest(s)".
+        /// </summary>>
+        /// <param name="id"></param>
+        /// <returns>All entities of type <paramref name="TEntity"/></returns>
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             var data = await sqlProviderAsync.ExecuteReaderAsync($"Get{modelNamePlural}");
@@ -36,44 +45,78 @@ namespace NadoMapper
             return data.Select(d => NadoMapper.MapPropsToSingle<TEntity>(d));
         }
 
+        /// <summary>
+        /// Retrieve a single row from the database by <paramref name="id"/>.
+        /// Note: Requires stored procedure "Get[modelName]ById " e.g. "GetTestById".
+        /// </summary>>
+        /// <param name="id"></param>
+        /// <returns>An entity of type <paramref name="TEntity"/> corresponding to <paramref name="id"/></returns>
         public async Task<TEntity> GetSingleByIdAsync(long id) =>
-            await GetSingleAsync(new NadoMapperParameter() {Name = "id", Value = id});
+            await GetSingleAsync("id",id);
 
+        /// <summary>
+        /// Retrieve a single row from the database by <paramref name="name"/>.
+        /// Note: Requires stored procedure "Get[modelName]ByName " e.g. "GetTestByName".
+        /// </summary>>
+        /// <param name="name"></param>
+        /// <returns>An entity of type <paramref name="TEntity"/> corresponding to <paramref name="name"/></returns>
         public async Task<TEntity> GetSingleByNameAsync(string name) =>
-            await GetSingleAsync(new NadoMapperParameter() {Name = "name", Value = name});
+            await GetSingleAsync("name", name);
 
-        public async Task<TEntity> GetSingleAsync(NadoMapperParameter parameter)
+        /// <summary>
+        /// Retrieve a single row from the database based on some parameter (<paramref name="parameterName"/> and <paramref name="parameterValue"/>)
+        /// Note: Requires stored procedure "Get[modelName]By[parameterName]" e.g. "GetTestByName".
+        /// </summary>>
+        /// <param name="parameter"></param>
+        /// <returns>An entity of type <paramref name="TEntity"/> corresponding to <paramref name="parameterName"/></returns>
+        public async Task<TEntity> GetSingleAsync(string parameterName, object parameterValue)
         {
-            var parameterName = parameter.Name.ToUpper()[0] + parameter.Name.Substring(1);
-            var procName = $"Get{modelName}By{parameterName}";
+            var procName = $"Get{modelName}By{parameterName.ToUpper()[0] + parameterName.Substring(1)}";
 
-            var data = await sqlProviderAsync.ExecuteReaderAsync(procName, parameter.Name, parameter.Value);
+            var data = await sqlProviderAsync.ExecuteReaderAsync(procName, parameterName, parameterValue);
             var single = data.FirstOrDefault();
 
             return NadoMapper.MapSingle<TEntity>(single);
         }
 
+        /// <summary>
+        /// Create a new row in the database containing the parameters of <paramref name="model" /> and return it's id.
+        /// Note: Requires stored procedure "Add[modelName]" e.g. "AddTest"
+        /// </summary>
+        /// <param name="model"></param>
+        /// <exception cref="T:System.ArgumentException"/>
+        /// <returns>An id of type <see cref="T:System.Int64"/></returns>
         public async Task<long> AddAsync(TEntity model)
         {
             var parameters = NadoMapper.ReflectPropsFromSingle(model);
             var id = await sqlProviderAsync.ExecuteScalarAsync($"Add{modelName}", CRUDType.Create, parameters);
 
             if(id.GetType() != typeof(long))
-                throw new ApplicationException($"Expected a long to be returned, got {id}");
+                throw new ArgumentException($"Expected an id of type long, got an id \"{id}\" of type {id.GetType().FullName}");
 
             return (long)id;
         }
 
-        // TODO: Implement Remaining CRUD
-        // NOTE: To do AddAsync and return an object, create an override in the Repository base called "AddAsync" that calls "GetById"
+        /// <summary>
+        /// Update a row (or rows) in the database based on the parameters specified in <paramref name="model" /> and return the number of rows that were updated.
+        /// Note: Requires stored procedure "Update[modelName] e.g. "UpdateTest"
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Number of rows updated as a <see cref="T:System.Int64"/></returns>
+        public async Task<long> UpdateAsync(TEntity model) 
+            => await sqlProviderAsync.ExecuteNonQueryAsync($"Update{modelName}", CRUDType.Update, NadoMapper.ReflectPropsFromSingle(model));
 
-        /*public async Task<long> UpdateAsync(TEntity model) => await ExecuteNonQueryAsync($"Update{_modelName}", CRUDType.Update, GetParamsFromModel(model));
-
+        /// <summary>
+        /// Delete a row from the database corresponding to the <paramref name="Id"/> and <paramref name="LastModified"/> of <paramref name="model"/>
+        /// Note: Requires stored procedure "Delete[modelName] e.g. "DeleteTest"
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Number of rows updated as a <see cref="T:System.Int64"/></returns>
         public async Task<long> DeleteAsync(TEntity model)
-            => await ExecuteNonQueryAsync($"Delete{_modelName}", CRUDType.Update, new List<NadoMapperParameter>()
-            {
-                new NadoMapperParameter(){Name="id",Value=model.Id},
-                new NadoMapperParameter(){Name="lastModified",Value=model.LastModified}
-            }); */
+        => await sqlProviderAsync.ExecuteNonQueryAsync($"Delete{modelName}", CRUDType.Update, new Dictionary<string, object>()
+        {
+            {"id",model.Id},
+            {"lastModified",model.LastModified}
+        });
     }
 }

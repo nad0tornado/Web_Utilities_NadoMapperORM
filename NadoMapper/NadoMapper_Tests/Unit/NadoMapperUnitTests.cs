@@ -3,10 +3,10 @@ using Xunit;
 
 namespace NadoMapper_Tests
 {
-    public class UnitTest1
+    public class NadoMapperUnitTests
     {
         [Fact]
-        public void Test1()
+        public void ReflectPropsToSingleUnitTest()
         {
 
         }
