@@ -17,4 +17,8 @@
     <Folder Include="Integration\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NadoMapper\NadoMapper.csproj" />
+  </ItemGroup>
+
 </Project>

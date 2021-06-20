@@ -7,12 +7,6 @@ using Newtonsoft.Json;
 
 namespace NadoMapper
 {
-    public struct NadoMapperParameter
-    {
-        public string Name { get; set; }
-        public object Value { get; set; }
-    }
-
     public class NadoMapper
     {
         public static TEntity MapPropsToSingle<TEntity>(Dictionary<string, object> props) =>
