@@ -103,6 +103,7 @@ namespace NadoMapper.SqlProvider
         private SqlCommand OpenConnection(string command, CRUDType crudType, Dictionary<string,object> parameters = null)
         {
             SqlCommand cmd = new SqlCommand(command) { CommandType = CommandType.StoredProcedure };
+            cmd.Connection = new SqlConnection(_connectionString);
 
             if (parameters != null)
             {

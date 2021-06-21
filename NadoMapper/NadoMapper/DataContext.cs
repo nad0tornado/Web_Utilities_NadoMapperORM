@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NadoMapper.Conventions;
 using NadoMapper.Models;
 using NadoMapper.SqlProvider;
 using Pluralize.NET;
@@ -15,7 +16,9 @@ namespace NadoMapper
     /// <typeparam name="TEntity"></typeparam>
     public class DataContext<TEntity> where TEntity: ModelBase, new()
     {
-        private SqlProviderAsync sqlProviderAsync;
+        private readonly SqlProviderAsync _sqlProviderAsync;
+
+        public List<PropertyConventionBase> PropertyConventions => _sqlProviderAsync.PropertyConventions;
 
         private string modelName => typeof(TEntity).Name;
         private string modelNamePlural { get; }
@@ -29,7 +32,7 @@ namespace NadoMapper
             var pluralizer = new Pluralizer();
             modelNamePlural = pluralizer.Pluralize(modelName);
 
-            sqlProviderAsync = new SqlProviderAsync(connectionString);
+            _sqlProviderAsync = new SqlProviderAsync(connectionString);
         }
 
         /// <summary>
@@ -40,7 +43,7 @@ namespace NadoMapper
         /// <returns>All entities of type <paramref name="TEntity"/></returns>
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var data = await sqlProviderAsync.ExecuteReaderAsync($"Get{modelNamePlural}");
+            var data = await _sqlProviderAsync.ExecuteReaderAsync($"Get{modelNamePlural}");
 
             return data.Select(d => NadoMapper.MapPropsToSingle<TEntity>(d));
         }
@@ -73,7 +76,7 @@ namespace NadoMapper
         {
             var procName = $"Get{modelName}By{parameterName.ToUpper()[0] + parameterName.Substring(1)}";
 
-            var data = await sqlProviderAsync.ExecuteReaderAsync(procName, parameterName, parameterValue);
+            var data = await _sqlProviderAsync.ExecuteReaderAsync(procName, parameterName, parameterValue);
             var single = data.FirstOrDefault();
 
             return NadoMapper.MapSingle<TEntity>(single);
@@ -89,7 +92,7 @@ namespace NadoMapper
         public async Task<long> AddAsync(TEntity model)
         {
             var parameters = NadoMapper.ReflectPropsFromSingle(model);
-            var id = await sqlProviderAsync.ExecuteScalarAsync($"Add{modelName}", CRUDType.Create, parameters);
+            var id = await _sqlProviderAsync.ExecuteScalarAsync($"Add{modelName}", CRUDType.Create, parameters);
 
             if(id.GetType() != typeof(long))
                 throw new ArgumentException($"Expected an id of type long, got an id \"{id}\" of type {id.GetType().FullName}");
@@ -104,7 +107,7 @@ namespace NadoMapper
         /// <param name="model"></param>
         /// <returns>Number of rows updated as a <see cref="T:System.Int64"/></returns>
         public async Task<long> UpdateAsync(TEntity model) 
-            => await sqlProviderAsync.ExecuteNonQueryAsync($"Update{modelName}", CRUDType.Update, NadoMapper.ReflectPropsFromSingle(model));
+            => await _sqlProviderAsync.ExecuteNonQueryAsync($"Update{modelName}", CRUDType.Update, NadoMapper.ReflectPropsFromSingle(model));
 
         /// <summary>
         /// Delete a row from the database corresponding to the <paramref name="Id"/> and <paramref name="LastModified"/> of <paramref name="model"/>
@@ -113,7 +116,7 @@ namespace NadoMapper
         /// <param name="model"></param>
         /// <returns>Number of rows updated as a <see cref="T:System.Int64"/></returns>
         public async Task<long> DeleteAsync(TEntity model)
-        => await sqlProviderAsync.ExecuteNonQueryAsync($"Delete{modelName}", CRUDType.Update, new Dictionary<string, object>()
+        => await _sqlProviderAsync.ExecuteNonQueryAsync($"Delete{modelName}", CRUDType.Update, new Dictionary<string, object>()
         {
             {"id",model.Id},
             {"lastModified",model.LastModified}
