@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 // using System.Web;
 using NadoMapper.Models;
@@ -26,7 +27,7 @@ namespace NadoMapper.SqlProvider
 
     public sealed class SqlProviderAsync
     {
-        private string _connectionString;
+        private readonly string _connectionString;
         public List<PropertyConventionBase> PropertyConventions;
 
         public SqlProviderAsync(string connectionString)
@@ -102,21 +103,18 @@ namespace NadoMapper.SqlProvider
         /// <returns></returns>
         private SqlCommand OpenConnection(string command, CRUDType crudType, Dictionary<string,object> parameters = null)
         {
-            SqlCommand cmd = new SqlCommand(command) { CommandType = CommandType.StoredProcedure };
+            var cmd = new SqlCommand(command) { CommandType = CommandType.StoredProcedure };
             cmd.Connection = new SqlConnection(_connectionString);
 
-            if (parameters != null)
-            {
-                foreach (var parameter in parameters)
-                {
-                    if (!PropertyConventions.Any(x => x.PropertyName == parameter.Key && x.CRUDType == crudType))
-                        cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
-                }
-            }
+            var parametersWithoutConvention = parameters?.Where(x => !ParameterHasConvention(x.Key, crudType));
+            parametersWithoutConvention?.Select(p => cmd.Parameters.AddWithValue(p.Key, p.Value));
 
             cmd.Connection.Open();
 
             return cmd;
         }
+
+        private bool ParameterHasConvention(string parameterName, CRUDType crudType)
+            => PropertyConventions.Any(x => x.PropertyName == parameterName && x.CRUDType == crudType);
     }
 }

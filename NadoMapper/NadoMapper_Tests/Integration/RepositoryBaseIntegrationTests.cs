@@ -31,18 +31,15 @@ namespace NadoMapper_Tests.Integration
             Assert.Equal(testModelToAddName, testModelToAddGetById.Name);
 
             // .. Get All
-            var testModelsExpectedLength = 1;
-            var testModelsFirstOrDefaultExpectedName = testModelToAddName;
             var testModels = await repositoryBase.GetAllAsync();
             
-            Assert.Equal(testModelsExpectedLength,testModels.Count());
-            Assert.Equal(testModelsFirstOrDefaultExpectedName,testModels.FirstOrDefault().Name);
+            Assert.Contains(testModels, m => m.Name == testModelToAddName);
             
             // .. Get By [parameterName]
-            var testModelToGetByParameterExpectedName = testModelToAddName;
             var testModelToGetByParameter = await repositoryBase.GetSingleAsync("Id", testModelToAddId);
 
-            Assert.Equal(testModelToGetByParameterExpectedName,testModelToGetByParameter.Name);
+            Assert.Equal(testModelToAddId, testModelToGetByParameter.Id);
+            Assert.Equal(testModelToAddName, testModelToGetByParameter.Name);
 
             // .. Update
             var testModelToUpdateName = $"sqlProviderIntegration-{Guid.NewGuid()}";
@@ -50,20 +47,17 @@ namespace NadoMapper_Tests.Integration
             var testModelToUpdate = testModelToAddGetById;
             testModelToUpdate.Name = testModelToUpdateName;
 
-            var updatedTestModelExpectedRowCount = 1;
-            var updatedTestModelRowCount = await repositoryBase.UpdateAsync(testModelToUpdate);
-            Assert.Equal(updatedTestModelExpectedRowCount,updatedTestModelRowCount);
+            var updatedTestModelExpectedUpdatedRowsRowCount = 1;
+            var updatedTestModelUpdatedRowsCount = await repositoryBase.UpdateAsync(testModelToUpdate);
+            Assert.Equal(updatedTestModelExpectedUpdatedRowsRowCount,updatedTestModelUpdatedRowsCount);
 
             var updatedTestModel = await repositoryBase.GetSingleAsync(testModelToUpdate.Id);
             Assert.Equal(testModelToUpdateName,updatedTestModel.Name);
 
             // .. Delete
-            var testModelToDeleteExpectedRowCount = 1;
-            var testModelToDeleteRowCount = await repositoryBase.DeleteAsync(updatedTestModel);
-
-            var testModelsEmptyExpectedRowCount = 0;
-            var testModelsEmpty = await repositoryBase.GetAllAsync();
-            Assert.Equal(testModelsEmptyExpectedRowCount, testModelsEmpty.Count());
+            var testModelToDeleteExpectedUpdatedRowsCount = 1;
+            var testModelToDeleteUpdatedRowsCount = await repositoryBase.DeleteAsync(updatedTestModel);
+            Assert.Equal(testModelToDeleteExpectedUpdatedRowsCount, testModelToDeleteUpdatedRowsCount);
 
             var testModelDeletedNull = await repositoryBase.GetSingleAsync(updatedTestModel.Id);
             Assert.Null(testModelDeletedNull);

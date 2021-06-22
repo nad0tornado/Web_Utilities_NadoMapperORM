@@ -94,10 +94,7 @@ namespace NadoMapper
             var parameters = NadoMapper.ReflectPropsFromSingle(model);
             var id = await _sqlProviderAsync.ExecuteScalarAsync($"Add{modelName}", CRUDType.Create, parameters);
 
-            if(id.GetType() != typeof(long))
-                throw new ArgumentException($"Expected an id of type long, got an id \"{id}\" of type {id.GetType().FullName}");
-
-            return (long)id;
+            return Convert.ToInt64(id);
         }
 
         /// <summary>

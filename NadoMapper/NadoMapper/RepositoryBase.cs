@@ -28,6 +28,11 @@ namespace NadoMapper
         public RepositoryBase(string connectionString)
         {
             _dataContext = new DataContext<TEntity>(connectionString);
+
+            _dataContext.PropertyConventions.Add(new IgnoreDateAddedDuringAddPropertyConvention());
+            _dataContext.PropertyConventions.Add(new IgnoreLastModifiedDuringAddPropertyConvention());
+            _dataContext.PropertyConventions.Add(new IgnoreDateAddedDuringUpdatePropertyConvention());
+            _dataContext.PropertyConventions.Add(new IgnoreIdDuringAddPropertyConvention());
         }
 
         public Task<IEnumerable<TEntity>> GetAllAsync() => _dataContext.GetAllAsync();
