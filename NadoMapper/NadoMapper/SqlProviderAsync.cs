@@ -107,7 +107,7 @@ namespace NadoMapper.SqlProvider
             cmd.Connection = new SqlConnection(_connectionString);
 
             var parametersWithoutConvention = parameters?.Where(x => !ParameterHasConvention(x.Key, crudType));
-            parametersWithoutConvention?.Select(p => cmd.Parameters.AddWithValue(p.Key, p.Value));
+            parametersWithoutConvention?.ToList().ForEach( p => cmd.Parameters.AddWithValue(p.Key,p.Value));
 
             cmd.Connection.Open();
 

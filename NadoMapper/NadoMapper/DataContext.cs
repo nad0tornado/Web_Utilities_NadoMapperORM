@@ -70,7 +70,8 @@ namespace NadoMapper
         /// Retrieve a single row from the database based on some parameter (<paramref name="parameterName"/> and <paramref name="parameterValue"/>)
         /// Note: Requires stored procedure "Get[modelName]By[parameterName]" e.g. "GetTestByName".
         /// </summary>>
-        /// <param name="parameter"></param>
+        /// <param name="parameterName"></param>
+        /// <param name="parameterValue"></param>
         /// <returns>An entity of type <paramref name="TEntity"/> corresponding to <paramref name="parameterName"/></returns>
         public async Task<TEntity> GetSingleAsync(string parameterName, object parameterValue)
         {
