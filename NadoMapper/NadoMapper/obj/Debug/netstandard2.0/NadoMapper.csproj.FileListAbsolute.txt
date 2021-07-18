@@ -7,3 +7,13 @@ D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper
 D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.dll
 D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.pdb
 D:\Storage\Projects\Web\Utilities\Web_Utilities_NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.csprojAssemblyReference.cache
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\bin\Debug\netstandard2.0\NadoMapper.deps.json
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\bin\Debug\netstandard2.0\NadoMapper.dll
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\bin\Debug\netstandard2.0\NadoMapper.pdb
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.csproj.AssemblyReference.cache
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.GeneratedMSBuildEditorConfig.editorconfig
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.AssemblyInfoInputs.cache
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.AssemblyInfo.cs
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.csproj.CoreCompileInputs.cache
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.dll
+D:\Storage\Projects\Web\Utilities\NadoMapper\NadoMapper\NadoMapper\obj\Debug\netstandard2.0\NadoMapper.pdb

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bvfBMNXdf6ZMqclcM3dPBc4BmdAQhae4JmUqEmNU6FM5MKulvYTDYgOQZxgQQ4FnMGpzoFn1PNwX2G0FrJkiHg==",
+  "dgSpecHash": "wIPj6ciEHq901gFTvPEVlufT5iEtqTtfSuPWEIDZfQ4NIiuMfbDArefqvtgFRI8cSqPflKwQt2152qGBML/iKA==",
   "success": true,
-  "projectFilePath": "D:\\Storage\\Projects\\Web\\Utilities\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj",
+  "projectFilePath": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nathan\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Nathan\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",

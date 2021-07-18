@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "E+hwaJOBQTj2GbMYKYNX/LaXry539CFHlizJf+HwgGGC2Exy/0Zjl7nV4Ocveqi98reR90hVGoIsl5iDGxgApw==",
+  "dgSpecHash": "ER2m/FLXGCwrrpVDSmHZA3CggZmYwrtkB+pq8lfQPN9xSKOqM5ZQL09MO4A1XC0mrts2BvcXHb6YwdvXW7eAZg==",
   "success": true,
-  "projectFilePath": "D:\\Storage\\Projects\\Web\\Utilities\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj",
+  "projectFilePath": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nathan\\.nuget\\packages\\coverlet.collector\\1.2.0\\coverlet.collector.1.2.0.nupkg.sha512",
     "C:\\Users\\Nathan\\.nuget\\packages\\microsoft.codecoverage\\16.5.0\\microsoft.codecoverage.16.5.0.nupkg.sha512",
@@ -28,7 +28,10 @@
     "C:\\Users\\Nathan\\.nuget\\packages\\xunit.core\\2.4.0\\xunit.core.2.4.0.nupkg.sha512",
     "C:\\Users\\Nathan\\.nuget\\packages\\xunit.extensibility.core\\2.4.0\\xunit.extensibility.core.2.4.0.nupkg.sha512",
     "C:\\Users\\Nathan\\.nuget\\packages\\xunit.extensibility.execution\\2.4.0\\xunit.extensibility.execution.2.4.0.nupkg.sha512",
-    "C:\\Users\\Nathan\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.0\\xunit.runner.visualstudio.2.4.0.nupkg.sha512"
+    "C:\\Users\\Nathan\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.0\\xunit.runner.visualstudio.2.4.0.nupkg.sha512",
+    "C:\\Users\\Nathan\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\Nathan\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\Nathan\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
   ],
   "logs": []
 }
