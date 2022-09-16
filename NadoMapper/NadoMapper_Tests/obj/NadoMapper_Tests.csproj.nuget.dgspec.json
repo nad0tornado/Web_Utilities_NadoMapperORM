@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj": {}
+    "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj": {}
   },
   "projects": {
-    "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj": {
+    "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj",
+        "projectUniqueName": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj",
         "projectName": "NadoMapper",
-        "projectPath": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj",
-        "packagesPath": "C:\\Users\\Nathan\\.nuget\\packages\\",
-        "outputPath": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper\\obj\\",
+        "projectPath": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj",
+        "packagesPath": "C:\\Users\\nadot\\.nuget\\packages\\",
+        "outputPath": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nathan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nadot\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -69,21 +69,21 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.6.21355.2\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj": {
+    "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj",
+        "projectUniqueName": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj",
         "projectName": "NadoMapper_Tests",
-        "projectPath": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj",
-        "packagesPath": "C:\\Users\\Nathan\\.nuget\\packages\\",
-        "outputPath": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper_Tests\\obj\\",
+        "projectPath": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj",
+        "packagesPath": "C:\\Users\\nadot\\.nuget\\packages\\",
+        "outputPath": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper_Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nathan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nadot\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -97,8 +97,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj": {
-                "projectPath": "D:\\Storage\\Projects\\Web\\Utilities\\NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj"
+              "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj": {
+                "projectPath": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj"
               }
             }
           }
@@ -159,7 +159,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.6.21355.2\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
