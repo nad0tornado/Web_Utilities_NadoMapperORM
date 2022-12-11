@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PBaFzET1x0nNLgtrVZ+wB5v+h7UJi/qIGW/wVqy5yVLgB72HCBl74RltAnqo9Weun71rr2NjvYYfioE1ehJQIA==",
+  "dgSpecHash": "2F/yHM0UQXSHWz96FLYgC/dZSiQHCgzubnIuIuiGYWkTGSmdEguMX3gtFN48eoi2cSCLgB3Cu1Aaxf8Rl9yerw==",
   "success": true,
   "projectFilePath": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper_Tests\\NadoMapper_Tests.csproj",
   "expectedPackageFiles": [
@@ -28,10 +28,7 @@
     "C:\\Users\\nadot\\.nuget\\packages\\xunit.core\\2.4.0\\xunit.core.2.4.0.nupkg.sha512",
     "C:\\Users\\nadot\\.nuget\\packages\\xunit.extensibility.core\\2.4.0\\xunit.extensibility.core.2.4.0.nupkg.sha512",
     "C:\\Users\\nadot\\.nuget\\packages\\xunit.extensibility.execution\\2.4.0\\xunit.extensibility.execution.2.4.0.nupkg.sha512",
-    "C:\\Users\\nadot\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.0\\xunit.runner.visualstudio.2.4.0.nupkg.sha512",
-    "C:\\Users\\nadot\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
-    "C:\\Users\\nadot\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
-    "C:\\Users\\nadot\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512"
+    "C:\\Users\\nadot\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.0\\xunit.runner.visualstudio.2.4.0.nupkg.sha512"
   ],
   "logs": []
 }

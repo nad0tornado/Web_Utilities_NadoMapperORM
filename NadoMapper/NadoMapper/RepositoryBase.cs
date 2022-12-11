@@ -28,17 +28,23 @@ namespace NadoMapper
     }
 
     /// <summary>
-    /// Execute a stored procedure by given name, and return the number of rows updated
+    /// Execute a stored procedure by given name and parameter, and return the number of rows updated
     /// </summary>>
-    public Task<long> ExecuteNonQueryAsync(string command, CRUDType crudType, Dictionary<string, object> parameters = null)
-     => _dataContext.ExecuteNonQueryAsync(command, crudType, parameters);
+    public Task<long> ExecuteNonQueryAsync(string command, string parameterName, object parameterValue)
+     => ExecuteNonQueryAsync(command, new Dictionary<string, object>() { { parameterName, parameterValue } });
+
+    /// <summary>
+    /// Execute a stored procedure by given name and parameters, and return the number of rows updated
+    /// </summary>>
+    public Task<long> ExecuteNonQueryAsync(string command, Dictionary<string, object> parameters = null)
+     => _dataContext.ExecuteNonQueryAsync(command, parameters);
 
     /// <summary>
     /// Execute a stored procedure by given name, and return an object of type <paramref name="TEntity"/>
     /// which satisfies the given parameter
     /// </summary>>
     public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, string parameterName, object parameterValue)
-        => ExecuteScalarAsync(command, crudType, parameterName, parameterValue);
+        => ExecuteScalarAsync(command, crudType, new Dictionary<string, object>() { { parameterName, parameterValue } });
 
     /// <summary>
     /// Execute a stored procedure by given name, and return an object of type <paramref name="TEntity"/>
@@ -60,6 +66,8 @@ namespace NadoMapper
     /// </summary>>
     public Task<IEnumerable<Dictionary<string, object>>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
         => _dataContext.ExecuteReaderAsync(command, parameters);
+
+    // BASE/GENERIC METHODS
 
     public Task<IEnumerable<TEntity>> GetAllAsync() => _dataContext.GetAllAsync();
 

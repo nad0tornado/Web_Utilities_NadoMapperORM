@@ -38,15 +38,15 @@ namespace NadoMapper
     /// <summary>
     /// Execute a stored procedure by given name, and return the number of rows updated
     /// </summary>>
-    public Task<long> ExecuteNonQueryAsync(string command, CRUDType crudType, Dictionary<string, object> parameters = null)
-     => _sqlProviderAsync.ExecuteNonQueryAsync(command, crudType, parameters);
+    public Task<long> ExecuteNonQueryAsync(string command, Dictionary<string, object> parameters = null)
+     => _sqlProviderAsync.ExecuteNonQueryAsync(command, CRUDType.None, parameters);
 
     /// <summary>
     /// Execute a stored procedure by given name, and return an object of type <paramref name="TEntity"/>
     /// which satisfies the given parameter
     /// </summary>>
     public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, string parameterName, object parameterValue)
-        => ExecuteScalarAsync(command, crudType, parameterName, parameterValue);
+        => ExecuteScalarAsync(command, crudType, new Dictionary<string, object>() { { parameterName, parameterValue } });
 
     /// <summary>
     /// Execute a stored procedure by given name, and return an object of type <paramref name="TEntity"/>
