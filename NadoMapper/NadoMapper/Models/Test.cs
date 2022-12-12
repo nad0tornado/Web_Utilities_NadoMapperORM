@@ -5,8 +5,8 @@ using System.Web;
 
 namespace NadoMapper.Models
 {
-    public class Test : ModelBase
-    {
-        public string Name { get; set; }
-    }
+  public record Test : ModelBase
+  {
+    public string Name { get; set; }
+  }
 }

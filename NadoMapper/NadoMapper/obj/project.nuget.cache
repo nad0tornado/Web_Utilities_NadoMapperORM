@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "T04hcH7tOdxquklHR+N8a1HT9sGLZyr1DDiGZ8hY0cH2QMRF2SLsYIc4bW7lmzPMa165/PJAAh9uJ7Rz/Cdk1A==",
+  "dgSpecHash": "Zml2SJs4+7ByJz+KqK1qSm4AM/U0d0egec0trqVdSazZLZucGnG3oM4RdqiszRkmcyyQ5IGwz2VTDCQdOMWH6w==",
   "success": true,
   "projectFilePath": "D:\\Pre-Archive\\Projects\\Web\\Utils\\Web_Utilities_NadoMapper\\NadoMapper\\NadoMapper\\NadoMapper.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\nadot\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\nadot\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
-    "C:\\Users\\nadot\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
     "C:\\Users\\nadot\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\nadot\\.nuget\\packages\\pluralize.net\\1.0.2\\pluralize.net.1.0.2.nupkg.sha512",
     "C:\\Users\\nadot\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",

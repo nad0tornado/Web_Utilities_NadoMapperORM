@@ -14,7 +14,6 @@ namespace NadoMapper
   public class RepositoryBase<TEntity> where TEntity : ModelBase, new()
   {
     private readonly DataContext<TEntity> _dataContext;
-
     public List<PropertyConventionBase> PropertyConventions => _dataContext.PropertyConventions;
 
     public RepositoryBase(string connectionString)
