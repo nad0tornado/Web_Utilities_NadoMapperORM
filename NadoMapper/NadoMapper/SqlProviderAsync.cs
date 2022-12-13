@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-// using System.Web;
-using NadoMapper.Models;
 using NadoMapper.Conventions;
-using Newtonsoft.Json;
-using Pluralize.NET;
 
 namespace NadoMapper.SqlProvider
 {

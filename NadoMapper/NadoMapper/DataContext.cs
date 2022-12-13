@@ -53,21 +53,24 @@ namespace NadoMapper
     /// which satisfies the given parameters
     /// </summary>>
     public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, Dictionary<string, object> parameters = null)
-        => _sqlProviderAsync.ExecuteScalarAsync(command, crudType, parameters);
+      => _sqlProviderAsync.ExecuteScalarAsync(command, crudType, parameters);
 
     /// <summary>
     /// Execute a stored procedure by given name, and return a collection of objects of type <paramref name="TEntity"/>
     /// which satisfies the given parameter
     /// </summary>>
-    public Task<IEnumerable<Dictionary<string, object>>> ExecuteReaderAsync(string command, string parameterName, object parameterValue)
+    public Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, string parameterName, object parameterValue)
         => ExecuteReaderAsync(command, new Dictionary<string, object>() { { parameterName, parameterValue } });
 
     /// <summary>
     /// Execute a stored procedure by given name, and return a collection of objects of type <paramref name="TEntity"/>
     /// which satisfies the given parameters
     /// </summary>>
-    public Task<IEnumerable<Dictionary<string, object>>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
-        => _sqlProviderAsync.ExecuteReaderAsync(command, parameters);
+    public async Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
+    {
+      var data = await _sqlProviderAsync.ExecuteReaderAsync(command, parameters);
+      return data.Select(d => NadoMapper.MapPropsToSingle<TEntity>(d));
+    }
 
     /// <summary>
     /// Retrieve all of the rows in the database for a given model.

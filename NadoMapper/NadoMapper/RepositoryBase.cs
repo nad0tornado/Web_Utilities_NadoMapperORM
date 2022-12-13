@@ -56,14 +56,14 @@ namespace NadoMapper
     /// Execute a stored procedure by given name, and return a collection of objects of type <paramref name="TEntity"/>
     /// which satisfies the given parameter
     /// </summary>>
-    public Task<IEnumerable<Dictionary<string, object>>> ExecuteReaderAsync(string command, string parameterName, object parameterValue)
+    public Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, string parameterName, object parameterValue)
         => ExecuteReaderAsync(command, new Dictionary<string, object>() { { parameterName, parameterValue } });
 
     /// <summary>
     /// Execute a stored procedure by given name, and return a collection of objects of type <paramref name="TEntity"/>
     /// which satisfies the given parameters
     /// </summary>>
-    public Task<IEnumerable<Dictionary<string, object>>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
+    public Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
         => _dataContext.ExecuteReaderAsync(command, parameters);
 
     // BASE/GENERIC METHODS
