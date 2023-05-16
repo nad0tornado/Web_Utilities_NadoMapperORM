@@ -16,7 +16,9 @@ namespace NadoMapper_Tests.Integration
         public async Task<bool> RepositoryBaseIntegrationTest()
         {
             var connectionString = "Data Source=localhost;Initial Catalog=TestDB;Integrated Security=True;";
-            var repositoryBase = new RepositoryBase<Test>(connectionString);
+            var sqlServerProvider = new SqlServerProvider(connectionString);
+            var dataContext = new DataContext<Test>(sqlServerProvider);
+            var repositoryBase = new RepositoryBase<Test>(dataContext);
 
             // .. Add
             var testModelToAddName = $"sqlProviderIntegration-{Guid.NewGuid()}";

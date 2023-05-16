@@ -6,7 +6,7 @@ namespace NadoMapper
 {
   public class NadoMapper
   {
-    public static TEntity MapPropsToSingle<TEntity>(Dictionary<string, object> props) =>
+    public static TEntity MapPropsToSingle<TEntity>(IDictionary<string, object> props) =>
         JsonConvert.DeserializeObject<TEntity>(JsonConvert.SerializeObject(props));
 
     public static TEntity MapSingle<TEntity>(object model) =>
@@ -18,7 +18,7 @@ namespace NadoMapper
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="entity"></param>
     /// <returns>A Dictionary (string,object) consisting of the properties of <paramref name="entity"/> </returns>
-    public static Dictionary<string, object> ReflectPropsFromSingle<TEntity>(TEntity entity) where TEntity : new()
+    public static IDictionary<string, object> ReflectPropsFromSingle<TEntity>(TEntity entity) where TEntity : new()
     {
       var parameters = new Dictionary<string, object>();
 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NadoMapper.Models;
 using NadoMapper.Conventions;
 using NadoMapper.SqlProvider;
+using NadoMapper.Interfaces;
 
 namespace NadoMapper
 {
@@ -11,14 +12,14 @@ namespace NadoMapper
   /// in a larger project that have been configured for a particular purpose
   /// </summary>
   /// <typeparam name="TEntity"></typeparam>
-  public class RepositoryBase<TEntity> where TEntity : ModelBase, new()
+  public class RepositoryBase<TEntity> : IRepository<TEntity, Dictionary<string,object>> where TEntity : IModel, new()
   {
-    private readonly DataContext<TEntity> _dataContext;
-    public List<PropertyConventionBase> PropertyConventions => _dataContext.PropertyConventions;
+    private readonly IDataContext<TEntity,Dictionary<string,object>> _dataContext;
+    public List<IPropertyConvention> PropertyConventions => _dataContext.PropertyConventions;
 
-    public RepositoryBase(string connectionString)
+    public RepositoryBase(IDataContext<TEntity,Dictionary<string,object>> dataContext)
     {
-      _dataContext = new DataContext<TEntity>(connectionString);
+      _dataContext = dataContext;
 
       _dataContext.PropertyConventions.Add(new IgnoreDateAddedDuringAddPropertyConvention());
       _dataContext.PropertyConventions.Add(new IgnoreLastModifiedDuringAddPropertyConvention());
@@ -35,7 +36,7 @@ namespace NadoMapper
     /// <summary>
     /// Execute a stored procedure by given name and parameters, and return the number of rows updated
     /// </summary>>
-    public Task<long> ExecuteNonQueryAsync(string command, Dictionary<string, object> parameters = null)
+    public Task<long> ExecuteNonQueryAsync(string command, IDictionary<string, object> parameters = null)
      => _dataContext.ExecuteNonQueryAsync(command, parameters);
 
     /// <summary>
@@ -43,13 +44,13 @@ namespace NadoMapper
     /// which satisfies the given parameter
     /// </summary>>
     public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, string parameterName, object parameterValue)
-        => ExecuteScalarAsync(command, crudType, new Dictionary<string, object>() { { parameterName, parameterValue } });
+        => ExecuteScalarAsync(command, crudType, new Dictionary<string,object>() { { parameterName, parameterValue } });
 
     /// <summary>
     /// Execute a stored procedure by given name, and return an object of type <paramref name="TEntity"/>
     /// which satisfies the given parameters
     /// </summary>>
-    public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, Dictionary<string, object> parameters = null)
+    public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, IDictionary<string, object> parameters = null)
         => _dataContext.ExecuteScalarAsync(command, crudType, parameters);
 
     /// <summary>
@@ -63,7 +64,7 @@ namespace NadoMapper
     /// Execute a stored procedure by given name, and return a collection of objects of type <paramref name="TEntity"/>
     /// which satisfies the given parameters
     /// </summary>>
-    public Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, Dictionary<string, object> parameters = null)
+    public Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, IDictionary<string, object> parameters = null)
         => _dataContext.ExecuteReaderAsync(command, parameters);
 
     // BASE/GENERIC METHODS
