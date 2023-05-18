@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using NadoMapper.Models;
+using NadoMapper.Enums;
 using NadoMapper.Conventions;
-using NadoMapper.SqlProvider;
 using NadoMapper.Interfaces;
 
 namespace NadoMapper

@@ -1,12 +1,6 @@
-﻿using NadoMapper.Conventions;
-using NadoMapper.SqlProvider;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using NadoMapper.Enums;
 
 namespace NadoMapper.Interfaces
 {

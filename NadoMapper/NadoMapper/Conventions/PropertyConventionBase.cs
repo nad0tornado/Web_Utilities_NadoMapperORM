@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using NadoMapper.Enums;
 using NadoMapper.Interfaces;
-using NadoMapper.SqlProvider;
 
 namespace NadoMapper.Conventions
 {

@@ -1,7 +1,4 @@
-﻿using NadoMapper.SqlProvider;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NadoMapper.Enums;
 
 namespace NadoMapper.Interfaces
 {

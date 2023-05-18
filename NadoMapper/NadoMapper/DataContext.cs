@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NadoMapper.Conventions;
+using NadoMapper.Enums;
 using NadoMapper.Interfaces;
 using NadoMapper.Models;
-using NadoMapper.SqlProvider;
 using Pluralize.NET;
 
 namespace NadoMapper
