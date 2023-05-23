@@ -11,12 +11,12 @@ namespace NadoMapper
   /// in a larger project that have been configured for a particular purpose
   /// </summary>
   /// <typeparam name="TEntity"></typeparam>
-  public class RepositoryBase<TEntity> : IRepository<TEntity, Dictionary<string,object>> where TEntity : IModel, new()
+  public class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : IModel, new()
   {
-    private readonly IDataContext<TEntity,Dictionary<string,object>> _dataContext;
+    private readonly IDataContext<TEntity> _dataContext;
     public List<IPropertyConvention> PropertyConventions => _dataContext.PropertyConventions;
 
-    public RepositoryBase(IDataContext<TEntity,Dictionary<string,object>> dataContext)
+    public RepositoryBase(IDataContext<TEntity> dataContext)
     {
       _dataContext = dataContext;
 

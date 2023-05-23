@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NadoMapper.Interfaces
 {
-    public interface IRepository<TEntity, TDict> where TEntity: IModel, new() where TDict : IDictionary<string,object>, new()
+    public interface IRepository<TEntity> where TEntity: IModel, new()
     {
         public List<IPropertyConvention> PropertyConventions { get; }
 
@@ -12,7 +12,7 @@ namespace NadoMapper.Interfaces
         /// Execute a stored procedure by given name and parameter, and return the number of rows updated
         /// </summary>>
         public Task<long> ExecuteNonQueryAsync(string command, string parameterName, object parameterValue)
-         => ExecuteNonQueryAsync(command, new TDict() { { parameterName, parameterValue } });
+         => ExecuteNonQueryAsync(command, new Dictionary<string, object>() { { parameterName, parameterValue } });
 
         /// <summary>
         /// Execute a stored procedure by given name and parameters, and return the number of rows updated
@@ -24,7 +24,7 @@ namespace NadoMapper.Interfaces
         /// which satisfies the given parameter
         /// </summary>>
         public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, string parameterName, object parameterValue)
-            => ExecuteScalarAsync(command, crudType, new TDict() { { parameterName, parameterValue } });
+            => ExecuteScalarAsync(command, crudType, new Dictionary<string, object>() { { parameterName, parameterValue } });
 
         /// <summary>
         /// Execute a stored procedure by given name, and return an object of type <paramref name="TEntity"/>

@@ -14,9 +14,9 @@ namespace NadoMapper
   /// The DataContext may be included as a member of a parent "Repository" class to provide specific functionality.
   /// </summary>
   /// <typeparam name="TEntity"></typeparam>
-  public class DataContext<TEntity> : IDataContext<TEntity,Dictionary<string,object>> where TEntity : ModelBase, new()
+  public class DataContext<TEntity> : IDataContext<TEntity> where TEntity : ModelBase, new()
   {
-        private readonly IDbService<Dictionary<string, object>> _databaseService;
+        private readonly IDbService _databaseService;
 
         public List<IPropertyConvention> PropertyConventions => _databaseService.PropertyConventions;
 
@@ -27,12 +27,16 @@ namespace NadoMapper
         /// Create a new DataContext accepting a <paramref name="connectionString"/> for use with models of type <paramref name="TEntity"/>
         /// </summary>
         /// <param name="connectionString"></param>
-        public DataContext(IDbService<Dictionary<string, object>> databaseService)
+        public DataContext(IDbService databaseService)
         {
             _databaseService = databaseService;
 
             var pluralizer = new Pluralizer();
             modelNamePlural = pluralizer.Pluralize(modelName);
+        }
+
+        public DataContext()
+        {
         }
 
         /// <summary>

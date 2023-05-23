@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NadoMapper.Interfaces
 {
-    public interface IDataContext<TEntity,TDict> where TEntity: IModel, new() where TDict: IDictionary<string,object>, new()
+    public interface IDataContext<TEntity> where TEntity: IModel, new()
     {
         public List<IPropertyConvention> PropertyConventions { get; }
 
@@ -18,7 +18,7 @@ namespace NadoMapper.Interfaces
         /// which satisfies the given parameter
         /// </summary>>
         public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, string parameterName, object parameterValue)
-            => ExecuteScalarAsync(command, crudType, new TDict() { { parameterName, parameterValue } });
+            => ExecuteScalarAsync(command, crudType, new Dictionary<string, object>() { { parameterName, parameterValue } });
 
         /// <summary>
         /// Execute a stored procedure by given name, and return an object of type <paramref name="TEntity"/>
@@ -31,7 +31,7 @@ namespace NadoMapper.Interfaces
         /// which satisfies the given parameter
         /// </summary>>
         public Task<IEnumerable<TEntity>> ExecuteReaderAsync(string command, string parameterName, object parameterValue)
-            => ExecuteReaderAsync(command, new TDict() { { parameterName, parameterValue } });
+            => ExecuteReaderAsync(command, new Dictionary<string, object>() { { parameterName, parameterValue } });
 
         /// <summary>
         /// Execute a stored procedure by given name, and return a collection of objects of type <paramref name="TEntity"/>

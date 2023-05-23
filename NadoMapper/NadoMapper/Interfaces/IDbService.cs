@@ -4,13 +4,13 @@ using NadoMapper.Enums;
 
 namespace NadoMapper.Interfaces
 {
-    public interface IDbService<TDict> where TDict : IDictionary<string,object>, new()
+    public interface IDbService
     {
         public List<IPropertyConvention> PropertyConventions { get; }
 
 
         public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, string parameterName, object parameterValue)
-             => ExecuteScalarAsync(command, crudType, new TDict() { { parameterName, parameterValue } });
+             => ExecuteScalarAsync(command, crudType, new Dictionary<string,object>() { { parameterName, parameterValue } });
 
         public Task<object> ExecuteScalarAsync(string command, CRUDType crudType, IDictionary<string, object> parameters = null);
 

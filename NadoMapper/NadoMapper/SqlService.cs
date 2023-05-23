@@ -9,7 +9,7 @@ using NadoMapper.Interfaces;
 
 namespace NadoMapper.SqlProvider
 {
-  public sealed class SqlService : IDbService<Dictionary<string,object>>
+  public sealed class SqlService : IDbService
   {
         private readonly string _connectionString;
         public List<IPropertyConvention> PropertyConventions { get; } = new List<IPropertyConvention>();
