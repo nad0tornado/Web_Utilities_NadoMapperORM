@@ -23,10 +23,6 @@ namespace NadoMapper
         private string modelName => typeof(TEntity).Name;
         private string modelNamePlural { get; }
 
-        /// <summary>
-        /// Create a new DataContext accepting a <paramref name="connectionString"/> for use with models of type <paramref name="TEntity"/>
-        /// </summary>
-        /// <param name="connectionString"></param>
         public DataContext(IDbService databaseService)
         {
             _databaseService = databaseService;
