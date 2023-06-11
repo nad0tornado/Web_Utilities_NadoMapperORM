@@ -112,6 +112,11 @@ namespace NadoMapper
         /// <returns>An entity of type <paramref name="TEntity"/> corresponding to <paramref name="parameterName"/></returns>
         public async Task<TEntity> GetSingleAsync(string parameterName, object parameterValue)
         {
+            if (parameterName == string.Empty)
+                throw new ArgumentException("parameterName cannot be empty");
+            if (parameterValue == null)
+                throw new ArgumentNullException("parameterValue cannot be null");
+
             var procName = $"Get{modelName}By{parameterName.ToUpper()[0] + parameterName.Substring(1)}";
 
             var data = await _databaseService.ExecuteReaderAsync(procName, parameterName, parameterValue);
@@ -129,6 +134,9 @@ namespace NadoMapper
         /// <returns>An id of type <see cref="T:System.Int64"/></returns>
         public async Task<long> AddAsync(TEntity model)
         {
+            if(model == null)
+                throw new ArgumentNullException("model cannot be null");
+
             var parameters = NadoMapper.ReflectPropsFromSingle(model);
             var id = await _databaseService.ExecuteScalarAsync($"Add{modelName}", CRUDType.Create, parameters);
 
@@ -142,7 +150,12 @@ namespace NadoMapper
         /// <param name="model"></param>
         /// <returns>Number of rows updated as a <see cref="T:System.Int64"/></returns>
         public async Task<long> UpdateAsync(TEntity model)
-            => await _databaseService.ExecuteNonQueryAsync($"Update{modelName}", CRUDType.Update, NadoMapper.ReflectPropsFromSingle(model));
+        {
+            if (model == null)
+                throw new ArgumentNullException("model cannot be null");
+
+            return await _databaseService.ExecuteNonQueryAsync($"Update{modelName}", CRUDType.Update, NadoMapper.ReflectPropsFromSingle(model));
+        }
 
         /// <summary>
         /// Delete a row from the database corresponding to the <paramref name="Id"/> and <paramref name="LastModified"/> of <paramref name="model"/>
@@ -151,10 +164,15 @@ namespace NadoMapper
         /// <param name="model"></param>
         /// <returns>Number of rows updated as a <see cref="T:System.Int64"/></returns>
         public async Task<long> DeleteAsync(TEntity model)
-        => await _databaseService.ExecuteNonQueryAsync($"Delete{modelName}", CRUDType.Update, new Dictionary<string, object>()
         {
-            {"id",model.Id},
-            {"lastModified",model.LastModified}
-        });
+            if (model == null)
+                throw new ArgumentNullException("model cannot be null");
+
+            return await _databaseService.ExecuteNonQueryAsync($"Delete{modelName}", CRUDType.Update, new Dictionary<string, object>()
+            {
+                {"id",model.Id},
+                {"lastModified",model.LastModified}
+            });
+        }
     }
 }
