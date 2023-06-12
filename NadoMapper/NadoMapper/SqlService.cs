@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NadoMapper.Enums;
 using NadoMapper.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace NadoMapper.SqlProvider
 {
@@ -14,9 +15,9 @@ namespace NadoMapper.SqlProvider
         private readonly string _connectionString;
         public List<IPropertyConvention> PropertyConventions { get; } = new List<IPropertyConvention>();
 
-        public SqlService(string connectionString)
+        public SqlService(IConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration["connectionString"];
         }
 
         public async Task<object> ExecuteScalarAsync(string command, CRUDType crudType, string parameterName, object parameterValue)
